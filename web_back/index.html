@@ -78,7 +78,25 @@
             </div>
         </div>
     </div>
-
+    <!--  -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">提示!</h4>
+                </div>
+                <div class="modal-body">
+                  登出错误
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
         var $level01 = $('.level01');
         var $subli = $('.level02 li')
@@ -107,7 +125,10 @@
         function resizeFrame() {
             var frame_w = $('#main_body').outerWidth();
             var frame_h = $('#main_body').outerHeight();
-            $('#main_frame').css({ 'width': frame_w, 'height': frame_h });
+            $('#main_frame').css({
+                'width': frame_w,
+                'height': frame_h
+            });
         }
 
         resizeFrame();
@@ -126,49 +147,34 @@
                 $('.level02').children().eq(n).addClass('active').siblings().removeClass('active');
             }
         }
-
     </script>
 
     <!-- 引入bs的js文件 -->
+    <script src="./js/jquery-1.12.4.min.js"></script>
     <script src="./js/bootstrap/js/bootstrap.min.js"></script>
     <script>
         $(function () {
-            //给退出的a标签设置一个点击事件
             $('#btn_logout').on('click', function (e) {
                 e.preventDefault();
-                //发送ajax请求,得到数据
                 $.ajax({
                     type: 'post',
                     url: 'https://autumnfish.cn/big/admin/logout',
                     success: function (backData) {
-                        //console.log(backData);
-                        //判断
-                        if (backData.code == 200) {
-                            //退出成功,跳转到登录页面
-                            window.location.href = './login.html';
-                        } else {
-                            // alert('退出失败');
-                            //调用bs的模态框的方法弹出模态框.
+                        // console.log(backData);
+                        if (backData.code != 200) {
+                           
                             $('#myModal').modal({
-                                keyboard:true
+                                keyboard: 'true'
                             });
+                        } else {
+                            window.location.href = './login.html'
                         }
+
                     }
-                });
-            });
-
-
-            
-            /*
-            步骤:
-            1.给退出的a标签设置一个点击事件.
-                取消他的默认跳转
-            2.发送ajax请求,得到数据
-                如果退出成功,跳转到登录页面.
-            */
-        });
+                })
+            })
+        })
     </script>
-
 </body>
 
 </html>
